@@ -17,13 +17,14 @@ const HomeStack = createStackNavigator();
 const SubStack = createStackNavigator();
 const ThirdStack = createStackNavigator();
 const FourthStack = createStackNavigator();
+//header
 function HomeStackScreen() {
     return (
         <HomeStack.Navigator initialRouteName="home">
             <HomeStack.Screen name="Home" component={HomeScreen} />
-            <SubStack.Screen name="Sub" component={SubScreen} />
-            <ThirdStack.Screen name="Third" component={ThirdScreen} />
-            <FourthStack.Screen name="Fourth" component={FourthScreen} />
+            {/* <SubStack.Screen name="Sub" component={SubScreen} />     この3行入れたらだめでした
+            <ThirdStack.Screen name="Third" component={ThirdScreen} />　　　　
+            <FourthStack.Screen name="Fourth" component={FourthScreen} /> */}
         </HomeStack.Navigator>
     );
 }
@@ -48,14 +49,19 @@ function FourthStackScreen() {
         </FourthStack.Navigator>
     );
 }
-// const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 function App() {
-    // export default function App() {
+    // footer
     return (
         <NavigationContainer>
-            <Tab.Navigator initialRouteName="home">
+            <Tab.Navigator
+                initialRouteName="Home"
+                activeColor="#f0edf6"
+                inactiveColor="#3e2465"
+                barStyle={{ backgroundColor: '#694fad' }}
+            >
+                {/* <Tab.Navigator initialRouteName="home"> */}
                 <Tab.Screen
                     name="home"
                     component={HomeStackScreen}
@@ -97,7 +103,7 @@ function App() {
                     }}
                 />
             </Tab.Navigator>
-        </NavigationContainer>
+        </NavigationContainer >
     );
 }
 
