@@ -2,15 +2,10 @@ import * as React from 'react';
 import { Button, View, Text } from 'react-native';
 
 // //Level10
-export default function SubScreen({ navigation, route }) {
-    React.useEffect(() => {
-        if (route.params?.post) {
-
-        }
-    }, [route.params?.post]);
+export default function FourthScreen({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Sub Screen</Text>
+            <Text>Fourth Screen</Text>
             <Button
                 title="Go to Third"
                 onPress={() => {
@@ -20,10 +15,10 @@ export default function SubScreen({ navigation, route }) {
                 }}
             />
             <Button
-                title="Go to Fourth"
+                title="Go to Sub"
                 onPress={() => {
                     navigation.navigate({
-                        name: 'Fourth',
+                        name: 'Sub',
                     });
                 }}
             />
@@ -31,9 +26,6 @@ export default function SubScreen({ navigation, route }) {
                 title="Go to Home"
                 onPress={() => navigation.navigate('Home')}
             />
-            <Text style={{ margin: 10 }}>itemId: {route.params?.itemId}</Text>
-            <Text style={{ margin: 10 }}>uid: {route.params?.uid}</Text>
-            <Text style={{ margin: 10 }}>name: {route.params?.name}</Text>
         </View>
     );
 }

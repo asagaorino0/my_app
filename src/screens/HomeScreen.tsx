@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, View, Text } from 'react-native';
 
-// //Level8
+// //Level10
 export default function HomeScreen({ navigation, route }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -24,12 +24,3 @@ export default function HomeScreen({ navigation, route }) {
     );
 }
 
-// //Level3
-// export default function HomeScreen() {
-//     return (
-//         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//             <Text>Greetingな</Text>
-//             <Text>Hello World!</Text>
-//         </View>
-//     );
-// }
