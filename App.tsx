@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Level6 from './src/pages/Level6'
 import Level7 from './src/pages/Level7'
-import Level10 from './src/pages/Level10'
+import Level11 from './src/pages/Level11'
 import HomeScreen from './src/screens/HomeScreen';
 import SubScreen from './src/screens/SubScreen';
 
@@ -18,6 +18,6 @@ export default function App() {
     //     {/* <Stack.Screen name="Sub" component={SubScreen} /> */}
     //   </Stack.Navigator>
     // </NavigationContainer>
-    <Level10 />
+    <Level11 />
   );
 }
