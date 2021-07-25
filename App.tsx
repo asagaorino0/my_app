@@ -7,17 +7,16 @@ import Level7 from './src/pages/Level7'
 import Level11 from './src/pages/Level11'
 import HomeScreen from './src/screens/HomeScreen';
 import SubScreen from './src/screens/SubScreen';
+import ThirdScreen from './src/screens/ThirdScreen';
+import MsgList from './src/screens/MsgList';
+import Constants from 'expo-constants';
+import firebase from 'firebase/app';
 
 const Stack = createStackNavigator();
 export default function App() {
+  console.log("extra", Constants.manifest!.extra?.firebase.authDomain);
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="Home">
-    //     {/* <Stack.Screen name="Home" component={Level7} /> */}
-    //     {/* <Stack.Screen name="My First Page" component={HomeScreen} /> */}
-    //     {/* <Stack.Screen name="Sub" component={SubScreen} /> */}
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-    <Level11 />
+    <HomeScreen />
   );
 }
+
