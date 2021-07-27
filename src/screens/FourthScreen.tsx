@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import firebase from "../lib/firebase";
 import "firebase/firestore";
 
@@ -36,25 +36,6 @@ export default function FourthScreen({ navigation, route }: { navigation: any, r
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {/* <Text>Fourth Screen</Text>
-            <Button
-                title="Go to Third"
-                onPress={() => {
-                    navigation.navigate('Third');
-                }}
-            />
-            <Button
-                title="Go to Sub"
-                onPress={() => {
-                    navigation.navigate('Sub')
-                }}
-            />
-            <Button
-                title="Go to Home"
-                onPress={() => {
-                    navigation.navigate('Home')
-                }}
-            /> */}
             <Text style={{ margin: 10 }}>uid: {uid}</Text>
             <Text style={{ margin: 10 }}>name: {`${user.name}`}</Text>
             <Text style={{ margin: 10 }}>age: {`${user.age}`}</Text>

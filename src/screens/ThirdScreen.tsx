@@ -18,19 +18,17 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
     button: {
-        // alignItems: "center",
-        padding: 10
-    },
-    input: {
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 3,
-        // backgroundColor: "#fff",
-        flexDirection: 'column',
+        flexBasis: '10%',
+        color: "black",
+        justifyContent: 'center',
     },
     container: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
+    },
+    display: {
+        flexDirection: 'row',
+        display: 'flex'
     },
 });
 
@@ -41,7 +39,6 @@ function ThirdScreen({ navigation, route }) {
     const [user, setUser] = React.useState('');
     const [age, setAge] = React.useState('');
     const [message, setMessage] = React.useState('');
-    const [messages, setMessages] = React.useState('');
     const db = firebase.firestore()
     React.useEffect(() => {
         firebase.auth().signInAnonymously()
@@ -50,18 +47,6 @@ function ThirdScreen({ navigation, route }) {
                     if (user) {
                         var uid = user.uid;
                         setUid(uid)
-                        firebase
-                            .firestore()
-                            .collection("messages")
-                            .orderBy("timestamp")
-                            .onSnapshot((snapshot) => {
-                                const messages = snapshot.docs.map((doc) => {
-                                    return doc.id &&
-                                        doc.data()
-                                    // doc.data().timestamp.toDate()
-                                });
-                                setMessages(messages);
-                            })
                         firebase
                             .firestore()
                             .collection("users")
@@ -107,16 +92,25 @@ function ThirdScreen({ navigation, route }) {
         <View style={styles.container}>
             <MsgList />
             <View >
-                <TextInput
-                    multiline
-                    placeholder=""
-                    style={styles.container}
-                    value={message}
-                    onChangeText={setMessage}
-                />
-                <Button onPress={handleCreate}>
-                    <Text>send！</Text>
-                </Button>
+                <View style={styles.display}>
+                    {/* <div id="flexbox"> */}
+                    <TextInput
+                        // multiline
+                        placeholder=""
+                        value={message}
+                        onChangeText={setMessage}
+                        style={{ flexBasis: '90%' }}
+
+                    />
+                    <View style={styles.button} >
+                        <FontAwesome name="send" size={26} onPress={handleCreate} />
+                    </View>
+                    {/* <Button onPress={handleCreate}>
+                        <Text>send！</Text>
+                    </Button> */}
+
+
+                </View>
             </View>
         </View>
     );
@@ -127,8 +121,6 @@ export default function App() {
     const Stack = createStackNavigator();
     return (
         <NavigationContainer independent={true}>
-            {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-            {/* <Stack.Screen name="Sub" component={SubScreen} /> */}
             <Tab.Navigator initialRouteName="home" component={ThirdScreen}>
                 <Tab.Screen
                     name="Third"

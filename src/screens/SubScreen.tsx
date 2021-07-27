@@ -55,8 +55,6 @@ export default function SubScreen({ navigation }: { navigation: any }) {
     }, [])
 
     const onPress = () => {
-        // setName(name)
-        // setAge(name)
         db.collection('users').doc(`${uid}`).set({
             name: `${name}`,
             age: `${age}`,
@@ -75,15 +73,6 @@ export default function SubScreen({ navigation }: { navigation: any }) {
                     title="Go to Home"
                     onPress={() => navigation.navigate('Home')}
                 />
-                {/* <Button
-                title="Save User Info"
-                onPress={() => { onPress }
-                }
-            /> */}
-                {/* <Button
-                    title="Go to Fourth"
-                    onPress={() => navigation.navigate('Fourth')}
-                /> */}
                 <Text style={{ margin: 10 }}>uid: {uid}</Text>
                 <View>
                     <Text>name</Text>
@@ -92,7 +81,6 @@ export default function SubScreen({ navigation }: { navigation: any }) {
                         placeholder=""
                         style={styles.input}
                         value={name}
-                        // defaultValue={`${user.name}`}
                         onChangeText={setName}
                     />
                     <Text>age</Text>
@@ -101,7 +89,6 @@ export default function SubScreen({ navigation }: { navigation: any }) {
                         placeholder=""
                         style={styles.input}
                         value={age}
-                        // defaultValue={`${user.age}`}
                         onChangeText={setAge}
                     />
                     <TouchableHighlight onPress={onPress}>

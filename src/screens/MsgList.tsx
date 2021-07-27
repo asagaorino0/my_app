@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import firebase from "firebase/app";
+import firebase from "../lib/firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import { useScrollToTop } from '@react-navigation/native';
 import Card from '../screens/Card'
+import MyCard from '../screens/MyCard'
 
-export default function MsgList({ navigation, }) {
+export default function MsgList({ navigation }: { navigation: any }) {
 
     const [uid, setUid] = React.useState('');
     const [name, setName] = React.useState('');
@@ -29,49 +30,49 @@ export default function MsgList({ navigation, }) {
                                 const messages = snapshot.docs.map((doc) => {
                                     return doc.id &&
                                         doc.data()
-                                    // doc.data().timestamp.toDate()
                                 });
                                 setMessages(messages);
-                            })
-                        firebase
-                            .firestore()
-                            .collection("users")
-                            .where("id", "==", `${user.uid}`)
-                            .get()
-                            .then((querySnapshot) => {
-                                querySnapshot.forEach((doc) => {
-                                    console.log(doc.id, " => ", doc.data())
-                                    setUser(doc.data())
-                                    setName(doc.data().name)
-                                    setAge(doc.data().age)
-                                    console.log(user)
-                                })
                             })
                     }
                 })
             })
     }, [])
 
-    // const ref = React.useRef(null);
+    const ref = React.useRef(null);
     // useScrollToTop(ref);
+
 
     return (
         <TouchableWithoutFeedback
             onPress={() => {
                 Keyboard.dismiss()
             }}>
-            <ScrollView>
-                {/* <ScrollView ref={ref}> */}
-
+            {/* <ScrollView> */}
+            <ScrollView ref={ref}>
+                {/* <ScrollView
+                ref={ref => this.scrollView = ref}
+                onContentSizeChange={(contentWidth, contentHeight) => {
+                    this.scrollView.scrollToEnd({ animated: true });
+                }}> */}
+                {/* <ScrollView ref="scrollView"
+                    onContentSizeChange={(width, height) => this.refs.scrollView.scrollTo({ y: height })}> */}
                 {messages.length !== 0 &&
                     messages.map((messages, index) => {
-                        return (
-                            <Card messages={messages} key={`${messages.id} `} />
-                        )
+                        if (messages.uid === uid) {
+                            return (
+                                <MyCard messages={messages} key={`${messages.id} `} style={{ justifyContent: 'flex-end' }} />
+
+                            )
+                        } else {
+                            return (
+                                <Card messages={messages} key={`${messages.id} `} />
+
+                            )
+                        }
                     })
                 }
             </ScrollView>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback >
     );
 
 }
