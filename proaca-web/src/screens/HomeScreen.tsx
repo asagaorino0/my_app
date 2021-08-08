@@ -6,47 +6,26 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SubScreen from '../screens/SubScreen'
 import ThirdScreen from '../screens/ThirdScreen';
 import firebase from "../lib/firebase";
-// import { getFunctions, httpsCallable } from 'firebase';
-// import  { getFunctions, httpsCallable } "../lib/firebase";
-// import { getFunctions } from "firebase/functions";
 import { getFunctions } from '../lib/firebase'
 
-
-
 function HomeScreen({ navigation }: { navigation: any }) {
-    const messageText = "Hello, World!";
-
     const onHello = () => {
         const functions = firebase.app().functions('us-central1');
         const proacaHello = getFunctions().httpsCallable('proacaHello')
         const res = proacaHello()
-            // proacaHello({ text: messageText })
             .then((res) => {
-                // Read result of the Cloud Function.
                 const sanitizedMessage = res.data.text;
-                // return firebase.app().database().ref('proacaHello').push({
-                //     text: sanitizedMessage,
-                // }).then(() => {
-                console.log('New Message written');
                 console.log(res.data);
-                console.log(sanitizedMessage);
-                return { text: sanitizedMessage };
-                // })
+                let result = window.alert(`${res.data}\n先生、ありがとうございます🤣🤣🤣`);
+                // return { text: sanitizedMessage };
             })
             .catch((error) => {
                 var code = error.code;
                 var message = error.message;
                 var details = error.details;
-                console.log(code, message, details)
+                console.log(message)
                 console.log(error)
             })
-        //     .then(result => {
-        //         console.log(result.data);
-        //     }).catch(error => {
-        //         console.log(error);
-        //     });
-        // });
-        // console.log({ text: sanitizedMessage });
     };
 
     const onClick = () => {
@@ -55,7 +34,7 @@ function HomeScreen({ navigation }: { navigation: any }) {
         const result = getUserInfo()
             .then((res) => {
                 var sanitizedMessage = res.data.text;
-                console.log(getUserInfo);
+                console.log(res.data);
             })
             .catch((error) => {
                 var code = error.code;
