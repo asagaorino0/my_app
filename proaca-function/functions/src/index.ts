@@ -11,21 +11,29 @@ import * as functions from "firebase-functions";
 const admin = require(`firebase-admin`);
 admin.initializeApp();
 
-const express = require('express');
-const cors = require('cors');
+// const express = require('express');
+// const cors = require('cors');
 
-const app = express();
+// const app = express();
 
 // Automatically allow cross-origin requests
-app.use(cors({ origin: true }));
-export const proacaHello = functions.https.onRequest((req,
-    res) => {
-    app.use(cors({ origin: true }));
-    console.log("hello!!!")
+
+export const proacaHello = functions.https.onRequest((req, res) => {
+    // export const proacaHello = functions.https.onCall((data, context) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:19006'); // localhostを許可
+    res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS, POST'); // DELETEだけは拒否
+    res.set('Access-Control-Allow-Headers', 'Content-Type, authorization,Firebase-Instance-Id-Token');// Content-Typeのみを許可
+
+    // app.use(cors({ origin: true }));
     res.json({ message: "Hello world" })
 })
 
 export const getUserInfo = functions.https.onRequest((req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:19006'); // localhostを許可
+    res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS, POST'); // DELETEだけは拒否
+    res.set('Access-Control-Allow-Headers', 'Content-Type, authorization,Firebase-Instance-Id-Token'); // Content-Typeのみを許可
+
+    // app.use(cors({ origin: true }));
     res.json(
         [
             {

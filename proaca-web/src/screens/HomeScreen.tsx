@@ -1,54 +1,70 @@
 import * as React from 'react';
-import * as functions from "../../../proaca-function/functions/node_modules/firebase-functions";
+// import * as functions from "../../../proaca-function/functions/node_modules/firebase-functions";
 import { Button, Text, View } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SubScreen from '../screens/SubScreen'
 import ThirdScreen from '../screens/ThirdScreen';
+import firebase from "../lib/firebase";
+// import { getFunctions, httpsCallable } from 'firebase';
+// import  { getFunctions, httpsCallable } "../lib/firebase";
+// import { getFunctions } from "firebase/functions";
+import { getFunctions } from '../lib/firebase'
 
 
 
 function HomeScreen({ navigation }: { navigation: any }) {
+    const messageText = "Hello, World!";
+
+    const onHello = () => {
+        const functions = firebase.app().functions('us-central1');
+        const proacaHello = getFunctions().httpsCallable('proacaHello')
+        const res = proacaHello()
+            // proacaHello({ text: messageText })
+            .then((res) => {
+                // Read result of the Cloud Function.
+                const sanitizedMessage = res.data.text;
+                // return firebase.app().database().ref('proacaHello').push({
+                //     text: sanitizedMessage,
+                // }).then(() => {
+                console.log('New Message written');
+                console.log(res.data);
+                console.log(sanitizedMessage);
+                return { text: sanitizedMessage };
+                // })
+            })
+            .catch((error) => {
+                var code = error.code;
+                var message = error.message;
+                var details = error.details;
+                console.log(code, message, details)
+                console.log(error)
+            })
+        //     .then(result => {
+        //         console.log(result.data);
+        //     }).catch(error => {
+        //         console.log(error);
+        //     });
+        // });
+        // console.log({ text: sanitizedMessage });
+    };
 
     const onClick = () => {
-
-        var request = new XMLHttpRequest();
-        request.open('GET', 'https://us-central1-react-native-firebase-15517.cloudfunctions.net/proacaHello?text=uppercasemetoo', true);
-        // request.open('GET', 'https://jsonplaceholder.typicode.com/users/1', true);
-        request.responseType = 'json';
-
-        request.onload = function () {
-            var data = this.response;
-            console.log(data);
-        };
-        request.send();
-
-
-        // fetch('https://us-central1-react-native-firebase-15517.cloudfunctions.net/getUserInfo?text=uppercasemetoo', {
-        //     // fetch("https://jsonplaceholder.typicode.com/users", {
-        //     method: "GET",
-        // }).then(response => response.text())
-        //     .then(text => {
-        //         console.log(text);
-        //     });
-
-
-        // let requestURL = "https://us-central1-react-native-firebase-15517.cloudfunctions.net/proacaHello";
-        // // let request = new XMLHttpRequest();
-        // // request.open('GET', requestURL);
-        // // request.responseType = 'text'; // now we're getting a string!
-        // // request.send();
-        // // // request.onload = function () {
-        // // const superHeroesText = request.response; // get the string from the response
-        // // const superHeroes = JSON.parse(superHeroesText || "null"); // convert it to an object
-        // // console.log(superHeroes);
-        // // }
-        // // const object = { requestURL };
-        // const object = { requestURL };
-        // const myjson = JSON.stringify(object || "null");
-        // const newjson = JSON.parse(myjson || "null");
-        // console.table(newjson);
-        // console.log(myjson);
+        const functions = firebase.app().functions('us-central1');
+        const getUserInfo = getFunctions().httpsCallable('getUserInfo')
+        const result = getUserInfo()
+            .then((res) => {
+                var sanitizedMessage = res.data.text;
+                console.log(getUserInfo);
+            })
+            .catch((error) => {
+                var code = error.code;
+                var message = error.message;
+                var details = error.details;
+                // ...
+                console.log(message)
+                console.log(error)
+            });
     }
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -56,6 +72,10 @@ function HomeScreen({ navigation }: { navigation: any }) {
             <Button
                 title="Go to Sub"
                 onPress={() => navigation.navigate('Sub')}
+            />
+            <Button
+                title="Hello"
+                onPress={onHello}
             />
             <Button
                 title="Get user info"
