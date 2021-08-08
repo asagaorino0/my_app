@@ -34,8 +34,13 @@ export const getUserInfo = functions.https.onRequest((req, res) => {
     res.set('Access-Control-Allow-Headers', 'Content-Type, authorization,Firebase-Instance-Id-Token'); // Content-Typeのみを許可
 
     // app.use(cors({ origin: true }));
-    res.json(
-        [
+
+    /**
+     * data: jsonの値みたいな感じにしてみてください。
+     *
+     */
+
+    const userInfo = [
             {
                 "id": 1,
                 "name": "Leanne Graham",
@@ -129,5 +134,6 @@ export const getUserInfo = functions.https.onRequest((req, res) => {
                 }
             }
         ]
-    )
+
+    res.json({data: userInfo})
 })
