@@ -45,6 +45,20 @@ function HomeScreen({ navigation }: { navigation: any }) {
                 console.log(error)
             });
     }
+    const onLine = () => {
+        const functions = firebase.app().functions('us-central1');
+        const helloPubSub = getFunctions().httpsCallable('helloPubSub')
+        const result = helloPubSub()
+            .then((res) => {
+                var sanitizedMessage = res.data.text;
+            })
+            .catch((error) => {
+                var code = error.code;
+                var message = error.message;
+                var details = error.details;
+                // ...
+            });
+    }
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Home Screen</Text>
@@ -59,6 +73,10 @@ function HomeScreen({ navigation }: { navigation: any }) {
             <Button
                 title="Get user info"
                 onPress={onClick}
+            />
+            <Button
+                title="LINE送信"
+                onPress={onLine}
             />
         </View>
     )

@@ -1,22 +1,75 @@
 import * as functions from "firebase-functions";
+import * as express from 'express';
+import * as line from '@line/bot-sdk';
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
 // export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
 // The Firebase Admin SDK to access Firestore.
 const admin = require(`firebase-admin`);
 admin.initializeApp();
 
-// const express = require('express');
-// const cors = require('cors');
+// // LINE bot
+const config = {
+    channelSecret: "4d5f11ad200af09808a7b5057ffe45e1",//チャンネルシークレット
+    channelAccessToken: "RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU=" //アクセストークン
+};
+const client = new line.Client(config);
+const app = express();
+app.post('/', line.middleware(config), (req, res) => {
+    Promise.all(req.body.events.map(handleEvent))
+        .then(() => res.status(200).end())
+        .catch((err) => {
+            console.error(err);
+            res.status(500).end()
+        })
+});
+async function handleEvent(event: any) {
+    // return client.replyMessage(event.replyToken, { type: "text", text: event.message.text + "ね" })
+    //ユーザから送られた各メッセージに対する処理を実装する。
+    //https://developers.line.biz/ja/reference/messaging-api/#message-event を参照。
+    switch (event.message.type) {
+        case 'text':
+            return client.replyMessage(event.replyToken, { type: "text", text: event.message.text + "ね" });
+        case 'image':
+            return client.replyMessage(event.replyToken, { type: "text", text: '画像を受け取りました。' });
+        case 'video':
+            return client.replyMessage(event.replyToken, { type: "text", text: '動画を受け取りました。' });
+        case 'audio':
+            return client.replyMessage(event.replyToken, { type: "text", text: '音声を受け取りました。' });
+        case 'file':
+            return client.replyMessage(event.replyToken, { type: "text", text: 'ファイルを受け取りました。' });
+        case 'location':
+            return client.replyMessage(event.replyToken, { type: "text", text: '位置情報を受け取りました。' });
+        case 'sticker':
+            return client.replyMessage(event.replyToken, { type: "text", text: 'スタンプを受け取りました。' });
+        default:
+            return Promise.resolve(null);
+    }
+}
+// exports.app = functions.https.onRequest(app);
+export const lineBot = functions.https.onRequest(app);
 
-// const app = express();
-
-// Automatically allow cross-origin requests
+const targetUserId = 'Ue990787da85bbd95eae9595867add9ba';
+export const helloPubSub = functions.https.onRequest(async (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:19006'); // localhostを許可
+    res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS, POST'); // DELETEだけは拒否
+    res.set('Access-Control-Allow-Headers', 'Content-Type, authorization,Firebase-Instance-Id-Token');// Content-Typeのみを許可
+    //   .runWith({ memory: '1GB' })
+    //   .region('us-central1')
+    const text = '送信できちゃいます';
+    await client.pushMessage(targetUserId, { type: 'text', text })
+        .then(() => res.status(200).end()
+            // return text;
+        )
+        .catch((err) => {
+            console.error(err);
+            res.status(500).end()
+        })
+})
 
 export const proacaHello = functions.https.onRequest((req, res) => {
     // export const proacaHello = functions.https.onCall((data, context) => {
